@@ -1,0 +1,7 @@
+---
+- hosts: aspproducers:rabbitmqconsumers:elkmachines
+  become: yes
+  become_method: sudo
+  tasks:
+  - debug:
+    msg: Hello World!
