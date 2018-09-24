@@ -4,4 +4,7 @@
   become_method: sudo
   tasks:
   - debug:
-    msg: Hello World!
+      msg: Hello World!
+      
+  - debug:
+      msg: "Home folder: {{ lookup('env','HOME') }}" 
