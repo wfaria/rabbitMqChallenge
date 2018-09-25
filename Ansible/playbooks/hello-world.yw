@@ -1,5 +1,5 @@
 ---
-- hosts: aspproducers:rabbitmqconsumers:elkmachines
+- hosts: aspproducers:elkservers:rabbitmqconsumers:rabbitmqservers
   become: yes
   become_method: sudo
   tasks:
