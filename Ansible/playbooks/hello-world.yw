@@ -7,4 +7,4 @@
       msg: Hello World!
       
   - debug:
-      msg: "Home folder: {{ lookup('env','HOME') }}" 
+      msg: "Home folder: {{ lookup('env','HOME') }}"
