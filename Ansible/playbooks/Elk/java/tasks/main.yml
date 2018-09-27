@@ -1,0 +1,27 @@
+# Install dirmngr to be able to install Java.
+- name: Install Dirmngr
+  apt:
+   name: dirmngr 
+   install_recommends: yes
+   state: present
+   update_cache: yes
+   
+# Add the Java repo
+# Note for Windows Subservice for Linux user, this command is currently
+# broken as described here: https://github.com/Microsoft/WSL/issues/3286
+# Disable this command and run on the machine this command before running ansible:
+# "add-apt-repository ppa:webupd8team/java"
+- name: Add the Java PPA repo (broken on WSL)
+  apt_repository: 
+   repo: ppa:webupd8team/java
+   
+# Accept Oracle license
+- name: Automatically accept the Oracle license
+  shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+  
+# Install Java 
+- name: Install Java 8
+  apt:
+   name: oracle-java8-installer
+   state: present
+   update_cache: yes
