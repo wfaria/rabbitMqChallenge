@@ -16,46 +16,52 @@
     {
         private Dictionary<string, string> GeneratedData;
         private HashSet<string> PreparedTables;
-        
+        private HashSet<string> PreparedDatabases;
+
         /// <summary>
         /// Basic constructor.
         /// </summary>
         public DatabaseConnection()
         {
             GeneratedData = new Dictionary<string, string>();
+            PreparedDatabases = new HashSet<string>();
             PreparedTables = new HashSet<string>();
         }
 
-        public virtual bool PrepareTable(
+        public virtual void PrepareDatabase(
+            string database,
+            bool failIfAlreadyCreated = false)
+        {
+            if (failIfAlreadyCreated && PreparedDatabases.Contains(database))
+            {
+                throw new ArgumentException(string.Format("'{0}' already exists on Database", database));
+            }
+
+            PreparedDatabases.Add(database);
+        }
+
+        public virtual void PrepareTable(
             string database,
             string table,
             bool failIfAlreadyCreated = false)
         {
             var key = string.Format("{0}/{1}", database, table);
-            if (failIfAlreadyCreated && GeneratedData.ContainsKey(key))
+            if (failIfAlreadyCreated && PreparedTables.Contains(key))
             {
                 throw new ArgumentException(string.Format("'{0}' already exists on Database", key));
             }
 
             PreparedTables.Add(key);
-            return true;
         }
 
-        public virtual bool WriteData(
+        public virtual void WriteData(
             string database,
             string table,
             string id,
-            string data,
-            bool failIfAlreadyCreated = false)
+            string data)
         {
             var key = string.Format("{0}/{1}/{2}", database, table, id);
-            if (failIfAlreadyCreated && GeneratedData.ContainsKey(key))
-            {
-                throw new ArgumentException(string.Format("'{0}' already exists on Database", key));
-            }
-
             GeneratedData[key] = data;
-            return true;
         }
     }
 }

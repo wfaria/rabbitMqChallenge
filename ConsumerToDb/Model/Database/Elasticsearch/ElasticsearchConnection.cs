@@ -6,7 +6,7 @@
 
     /// <summary>
     /// Class to communicate with an Elasticsearch database
-    /// using POST requests.
+    /// using PUT requests.
     /// </summary>
     public class ElasticsearchConnection : DatabaseConnection
     {
@@ -16,59 +16,76 @@
         private static readonly string IndexJsonPattern = "{ }";
 
         // Empty type declaration.
-        private static readonly string TypeJsonPattern = "{'properties': {}}";
+        private static readonly string TypeJsonPattern = "{ \"properties\": { } }";
             // "{{'settings' : {{'number_of_shards' : 1}}, 'mappings' : {{ '{0}' : {{'properties' : {{}}}}}}}}";
 
-        public ElasticsearchConnection(string hostname, string port)
+        public ElasticsearchConnection(string hostname, int port)
         {
             ElsUrl = string.Format("http://{0}:{1}", hostname, port);
         }
 
-        public override bool PrepareTable(
+        /// <inheritdoc/>
+        public override void PrepareDatabase(
+            string database,
+            bool failIfAlreadyCreated = false)
+        {
+            // Prepare index.
+            var url = FormatDatabaseUrl(database);
+            var data = IndexJsonPattern;
+            Put(url, data, failIfAlreadyCreated);
+        }
+
+        /// <inheritdoc/>
+        public override void PrepareTable(
             string database,
             string table,
             bool failIfAlreadyCreated = false)
         {
-            // Prepare index
-            var url = FormatDatabaseUrl(database);
-            var data = IndexJsonPattern;
-            Console.WriteLine(url);
-            Console.WriteLine(data);
-            Post(url, data);
-
             // Prepare type inside index.
-            //var typeUrl = FormatTypeCreationUrl(database, table);
-            //var typeData = TypeJsonPattern;
-            //Console.WriteLine(typeUrl);
-            //Console.WriteLine(typeData);
-            //Post(typeUrl, typeData);
-
-            return true;
+            var typeUrl = FormatTypeCreationUrl(database, table);
+            var typeData = TypeJsonPattern;
+            Put(typeUrl, typeData, failIfAlreadyCreated);
         }
 
-        public override bool WriteData(
+        /// <inheritdoc/>
+        public override void WriteData(
             string database,
             string table,
             string id,
-            string data,
-            bool failIfAlreadyCreated = false)
+            string data)
         {
             var url = FormatDatabaseUrl(database, table, id);
-            SendPostRequest(url, data);
 
-            return true;
+            // Using always false as last parameter since it is fine
+            // to overwrite the element.
+            Put(url, data, false);
         }
 
+        /// <summary>
+        /// Gets an URL to create a new type.
+        /// </summary>
+        /// <param name="index">Index name on Elasticsearch.</param>
+        /// <param name="type">Child type name on Elasticsearch.</param>
         private string FormatTypeCreationUrl(string index, string type)
         {
             return string.Format("{0}/{1}/_mapping/{2}", ElsUrl, index, type);
         }
 
+        /// <summary>
+        /// Gets an URL to create a new index.
+        /// </summary>
+        /// <param name="index">Index name on Elasticsearch.</param>
         private string FormatDatabaseUrl(string index)
         {
             return string.Format("{0}/{1}", ElsUrl, index);
         }
 
+        /// <summary>
+        /// Gets an URL to create a new document part of a type inside of an index.
+        /// </summary>
+        /// <param name="index">Index name on Elasticsearch.</param>
+        /// <param name="type">Child type name on Elasticsearch.</param>
+        /// <param name="id">Document unique ID.</param>
         private string FormatDatabaseUrl(string index, string type, string id)
         {
             return string.Format(
@@ -79,51 +96,26 @@
                 id);
         }
 
-        private void SendPostRequest(string url, string data)
+        private void Put(string url, string data, bool failIfAlreadyCreated)
         {
-            using (var wb = new WebClient())
+            try
             {
-                // wb.Headers["Content-Type"] = "application/json";
-                //wb.Headers.Add(HttpRequestHeader.Accept, "application/json");
-                wb.Headers.Add("Content-Type", "application/json");
-                
-                var response = wb.UploadString(url, data);
+                WebClient client = new WebClient();
+                client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                client.Encoding = System.Text.Encoding.UTF8;
 
-                //byte[] d = Encoding.UTF8.GetBytes(data);
-                //wb.UploadData(url, d);
+                byte[] b = Encoding.UTF8.GetBytes(data);
+                client.UploadData(new Uri(url), "PUT", b);
             }
-        }
-
-        public void Post(string url, string data)
-        {
-            WebClient client = new WebClient();
-            client.UploadDataCompleted += (s, e) =>
+            catch(WebException e)
             {
-                if (e.Error == null && e.Result != null)
+                HttpWebResponse res = (HttpWebResponse)e.Response;
+                Console.WriteLine(url + " " + res.StatusDescription);
+                if (res.StatusCode != HttpStatusCode.BadRequest || failIfAlreadyCreated)
                 {
-                    try
-                    {
-                        string response = Encoding.UTF8.GetString(e.Result);
-                        Console.WriteLine("Success");
-                        Console.WriteLine(response);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Response parsing error");
-                        Console.WriteLine(ex);
-                    }
+                    throw e;
                 }
-
-                else
-                    Console.WriteLine("No Response error");
-                    Console.WriteLine(e.Error);
-            };
-
-            client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-            client.Encoding = System.Text.Encoding.UTF8;
-
-            byte[] b = Encoding.UTF8.GetBytes(data);
-            client.UploadDataAsync(new Uri(url), "PUT", b);
+            }
         }
     }
 }
