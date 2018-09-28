@@ -17,8 +17,12 @@
 
         // Empty type declaration.
         private static readonly string TypeJsonPattern = "{ \"properties\": { } }";
-            // "{{'settings' : {{'number_of_shards' : 1}}, 'mappings' : {{ '{0}' : {{'properties' : {{}}}}}}}}";
-
+        
+        /// <summary>
+        /// Basic constructor.
+        /// </summary>
+        /// <param name="hostname">The IP of the server machine.</param>
+        /// <param name="port">The port used on the server machine.</param>
         public ElasticsearchConnection(string hostname, int port)
         {
             ElsUrl = string.Format("http://{0}:{1}", hostname, port);
@@ -96,6 +100,13 @@
                 id);
         }
 
+        /// <summary>
+        /// Sends an Update command to the Elasticserver machine
+        /// using a PUT method.
+        /// </summary>
+        /// <param name="url">Any URL indexing an Elasticsearch element.</param>
+        /// <param name="data">A string describing the update command.</param>
+        /// <param name="failIfAlreadyCreated">Raises an <see cref="ArgumentException"/> if the element already exists on database.</param>
         private void Put(string url, string data, bool failIfAlreadyCreated)
         {
             try
@@ -113,7 +124,7 @@
                 Console.WriteLine(url + " " + res.StatusDescription);
                 if (res.StatusCode != HttpStatusCode.BadRequest || failIfAlreadyCreated)
                 {
-                    throw e;
+                    throw GetExistentElementException(e);
                 }
             }
         }
