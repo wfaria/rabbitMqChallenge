@@ -9,6 +9,8 @@
     /// Mock class for classic database connections.
     /// Recommended when you need to create a connection instance
     /// and use it sporadically to read or write data.
+    /// It should make it easier to change database systems
+    /// without affecting multiple files in the code.
     /// </summary>
     public class DatabaseConnection
     {
@@ -52,7 +54,7 @@
                 throw new ArgumentException(string.Format("'{0}' already exists on Database", key));
             }
 
-            GeneratedData.Add(key, data);
+            GeneratedData[key] = data;
             return true;
         }
     }
