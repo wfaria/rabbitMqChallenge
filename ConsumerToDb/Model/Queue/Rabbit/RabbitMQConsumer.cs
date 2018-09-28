@@ -19,14 +19,18 @@
         private readonly IConnectionFactory factory;
         private readonly string queueName;
 
-        public RabbitMQConsumer(string hostname, string queueName, IConnectionFactory factory = null)
+        public RabbitMQConsumer(
+            string hostname,
+            int port,
+            string queueName,
+            IConnectionFactory factory = null)
         {
             if (factory == null)
             {
                 this.factory = new ConnectionFactory()
                 {
-                    HostName = "localhost",
-                    Port = 5672,
+                    HostName = hostname,
+                    Port = port,
                 };
             }
             
