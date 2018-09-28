@@ -1,0 +1,9 @@
+# Based on https://github.com/DanielBerman/ansible-elk-playbook
+- hosts: elkservers
+  become: yes
+  become_method: sudo
+  
+  roles:
+  - { role: java }
+  - { role: elasticsearch }
+  - { role: kibana }

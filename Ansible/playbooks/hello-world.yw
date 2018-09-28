@@ -3,6 +3,12 @@
   become: yes
   become_method: sudo
   tasks:
+  - name: "whoami?"
+    shell: whoami
+    register: whoami
+
+  - debug: var=whoami.stdout
+  
   - debug:
       msg: Hello World!
       
