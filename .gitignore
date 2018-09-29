@@ -28,6 +28,7 @@ _UpgradeReport_Files/
 ###############
 # Directories #
 ###############
+.vs/    
 ConsumerToDb/.vs/
 ConsumerToDb/bin/
 ConsumerToDb/obj/
@@ -61,6 +62,9 @@ ProducerApi/TestResults/
 ######################
 # Logs and databases #
 ######################
+*dtbcache
+*.ide-shm
+*.ide-wal
 *.log
 *.sqlite
 # OS generated files #
