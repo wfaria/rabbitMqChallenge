@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-
-namespace ProducerRestApi.Controllers
+﻿namespace ProducerRestApi.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("api/[controller]")]
     [ApiController]
     public class LogsController : ControllerBase
@@ -26,9 +28,12 @@ namespace ProducerRestApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public HttpResponseMessage Post([FromBody] string value)
         {
             Console.WriteLine(value);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.ReasonPhrase = "Post working Phrase";
+            return response;
         }
 
         // PUT api/values/5
