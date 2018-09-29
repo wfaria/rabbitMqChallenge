@@ -6,6 +6,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using JsonHelper.Model;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
@@ -30,9 +31,31 @@
         [HttpPost]
         public HttpResponseMessage Post([FromBody] string value)
         {
-            Console.WriteLine(value);
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.ReasonPhrase = "Post working Phrase";
+            var response = new HttpResponseMessage();
+            try
+            {
+                var dynamicObj = new LogEntryList().Deserialize(value);
+                if (dynamicObj == null)
+                {
+                    response.StatusCode = HttpStatusCode.BadRequest;
+                    response.ReasonPhrase = "Input JSON string doesn't contain all required fields in all objects.";
+                }
+                else
+                {
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.ReasonPhrase = "Log list received with success.";
+
+                    // TODO: Publish it on RabbitMQ.
+                }
+            }
+            catch (Exception e)
+            {
+                response.StatusCode = HttpStatusCode.BadRequest;
+                response.ReasonPhrase = string.Format(
+                    "Internal Error or Input JSON contains invalid character or format. Error message: {0}",
+                    e.Message);
+            }            
+            
             return response;
         }
 
