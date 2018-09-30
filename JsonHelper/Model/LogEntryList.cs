@@ -1,10 +1,13 @@
 ﻿namespace JsonHelper.Model
 {
     using System;
-    using System.Collections.Generic;
 
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// A list of <see cref="LogEntry"/> objects. See its
+    /// summary documentation for more details.
+    /// </summary>
     public class LogEntryList : JsonBase
     {
         public override dynamic Deserialize(string json)
