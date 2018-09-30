@@ -14,32 +14,6 @@
         private List<string> publishedMessages;
 
         /// <summary>
-        /// Starts main loop to consume messages from any queue abstraction.
-        /// </summary>
-        public void Consume()
-        {
-            try
-            {
-                Initialize();
-                PrepareQueues();
-                RegisterConsumer();
-            }
-            catch (Exception e)
-            {
-                CatchException(e);
-            }
-        }
-
-        /// <summary>
-        /// Method called on errors to end any pendent task before finishing the program.
-        /// This can also be used to log errors on other databases.
-        /// </summary>
-        public virtual void CatchException(Exception e)
-        {
-            Console.WriteLine(e);
-        }
-
-        /// <summary>
         /// The method that is called by each callback registered by
         /// <see cref="RegisterConsumer"/>.
         /// </summary>
@@ -49,7 +23,8 @@
         }
 
         /// <summary>
-        /// Initialize object before starting consumption.
+        /// Initialize object before starting consumption and the database state
+        /// if necessary.
         /// </summary>
         public virtual void Initialize()
         {

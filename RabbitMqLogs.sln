@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProducerRestApi", "Producer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonHelper", "JsonHelper\JsonHelper.csproj", "{0635EDFC-F3A7-4F94-A9CD-62869D98780E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueDatabase", "QueueDatabase\QueueDatabase.csproj", "{1DE76D93-8B0F-4210-805C-54853B95B661}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +60,17 @@ Global
 		{0635EDFC-F3A7-4F94-A9CD-62869D98780E}.Release|x64.Build.0 = Release|Any CPU
 		{0635EDFC-F3A7-4F94-A9CD-62869D98780E}.Release|x86.ActiveCfg = Release|Any CPU
 		{0635EDFC-F3A7-4F94-A9CD-62869D98780E}.Release|x86.Build.0 = Release|Any CPU
+		{1DE76D93-8B0F-4210-805C-54853B95B661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DE76D93-8B0F-4210-805C-54853B95B661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DE76D93-8B0F-4210-805C-54853B95B661}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1DE76D93-8B0F-4210-805C-54853B95B661}.Debug|x64.Build.0 = Debug|Any CPU
+		{1DE76D93-8B0F-4210-805C-54853B95B661}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1DE76D93-8B0F-4210-805C-54853B95B661}.Debug|x86.Build.0 = Debug|Any CPU
+		{1DE76D93-8B0F-4210-805C-54853B95B661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DE76D93-8B0F-4210-805C-54853B95B661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DE76D93-8B0F-4210-805C-54853B95B661}.Release|x64.ActiveCfg = Release|Any CPU
+		{1DE76D93-8B0F-4210-805C-54853B95B661}.Release|x64.Build.0 = Release|Any CPU
+		{1DE76D93-8B0F-4210-805C-54853B95B661}.Release|x86.ActiveCfg = Release|Any CPU
+		{1DE76D93-8B0F-4210-805C-54853B95B661}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

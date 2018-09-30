@@ -9,15 +9,11 @@
         {
             var conn = new RabbitMqConnection("localhost", 5672, "applicationLogs");
 
-            // To consume just call this. It will handle initialization for you.
-            conn.Consume();
+            conn.RegisterConsumer();
 
-            // To publish you need to handle the initialization, since it isn't based on callbacks.
-            conn.Initialize();
-            conn.PrepareQueues();
-            conn.Publish("Test 3");
+            conn.Publish("Test 4");
 
-            Console.WriteLine("Press ENTER to quit.");
+            Console.WriteLine("Press CTRL+C to quit.");
             Console.ReadLine();
         }
     }

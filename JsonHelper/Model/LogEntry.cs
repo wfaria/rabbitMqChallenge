@@ -30,6 +30,7 @@
         {
             try
             {
+                // You can also do other logic or business verifications here if you need.
                 var obj = JsonConvert.DeserializeObject<LogEntry>(json);
             }
             catch (Exception e)

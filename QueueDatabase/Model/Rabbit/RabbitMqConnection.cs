@@ -35,6 +35,10 @@
             }
 
             this.queueName = queueName;
+
+            // Initialize connection variables and queue.
+            Initialize();
+            PrepareQueues();
         }
 
         /// <inheritdoc/>
@@ -45,7 +49,7 @@
                 message = "Empty message";
             }
 
-            Console.WriteLine(string.Format("Read message from Queue: {0}", message);
+            Console.WriteLine(string.Format("Read message from Queue: {0}", message));
         }
 
         /// <inheritdoc/>
