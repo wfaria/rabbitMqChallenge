@@ -33,10 +33,18 @@ ConsumerToDb/.vs/
 ConsumerToDb/bin/
 ConsumerToDb/obj/
 ConsumerToDb/TestResults/
-ProducerApi/.vs/
-ProducerApi/bin/
-ProducerApi/obj/
-ProducerApi/TestResults/
+JsonHelper/.vs/
+JsonHelper/bin/
+JsonHelper/obj/
+JsonHelper/TestResults/
+ProducerRestApi/.vs/
+ProducerRestApi/bin/
+ProducerRestApi/obj/
+ProducerRestApi/TestResults/
+QueueDatabase/.vs/
+QueueDatabase/bin/
+QueueDatabase/obj/
+QueueDatabase/TestResults/
 ###################
 # Web publish log #
 ###################
