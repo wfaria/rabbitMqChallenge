@@ -14,6 +14,7 @@
   
   <ItemGroup>
   <ProjectReference Include="../JsonHelper/JsonHelper.csproj" />
+  <ProjectReference Include="../QueueDatabase/QueueDatabase.csproj" />
   </ItemGroup>
 
 </Project>
