@@ -1,11 +1,12 @@
 ﻿namespace ConsumerToDb.Controllers
 {
+    using System;
+
     using ConsumerToDb.Model.Database;
     using ConsumerToDb.Model.Queue.Rabbit;
     using JsonHelper.Model;
     using Newtonsoft.Json;
     using RabbitMQ.Client;
-    using System;
 
     /// <summary>
     /// This class consumes log entries from a message queue broker
@@ -42,7 +43,7 @@
                 foreach (var log in dynamicObj)
                 {
                     var serializedLog = JsonConvert.SerializeObject(log);
-                    dbConn.WriteData(TargetDatabase, TargetTable, "1", serializedLog);
+                    dbConn.WriteData(TargetDatabase, TargetTable, null, serializedLog);
                     amount++;
                 }
 

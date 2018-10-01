@@ -5,8 +5,7 @@
     using System.Text;
 
     /// <summary>
-    /// Class to communicate with an Elasticsearch database
-    /// using PUT requests.
+    /// Class to communicate with an Elasticsearch database.
     /// </summary>
     public class ElasticsearchConnection : DatabaseConnection
     {
@@ -36,7 +35,7 @@
             // Prepare index.
             var url = FormatDatabaseUrl(database);
             var data = IndexJsonPattern;
-            Put(url, data, failIfAlreadyCreated);
+            HttpPublish(url, data, failIfAlreadyCreated);
         }
 
         /// <inheritdoc/>
@@ -48,7 +47,7 @@
             // Prepare type inside index.
             var typeUrl = FormatTypeCreationUrl(database, table);
             var typeData = TypeJsonPattern;
-            Put(typeUrl, typeData, failIfAlreadyCreated);
+            HttpPublish(typeUrl, typeData, failIfAlreadyCreated);
         }
 
         /// <inheritdoc/>
@@ -59,10 +58,7 @@
             string data)
         {
             var url = FormatDatabaseUrl(database, table, id);
-
-            // Using always false as last parameter since it is fine
-            // to overwrite the element.
-            Put(url, data, false);
+            HttpPublish(url, data, failIfAlreadyCreated: false, idOnUrl: !string.IsNullOrEmpty(id));
         }
 
         /// <summary>
@@ -89,9 +85,14 @@
         /// </summary>
         /// <param name="index">Index name on Elasticsearch.</param>
         /// <param name="type">Child type name on Elasticsearch.</param>
-        /// <param name="id">Document unique ID.</param>
+        /// <param name="id">Document unique ID, it can be null when it should be created by Elasticsearch.</param>
         private string FormatDatabaseUrl(string index, string type, string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                id = string.Empty;
+            }
+
             return string.Format(
                 "{0}/{1}/{2}/{3}",
                 ElsUrl,
@@ -102,12 +103,13 @@
 
         /// <summary>
         /// Sends an Update command to the Elasticserver machine
-        /// using a PUT method.
+        /// using a PUT method (when the ID is known) or the POST method instead.
         /// </summary>
         /// <param name="url">Any URL indexing an Elasticsearch element.</param>
         /// <param name="data">A string describing the update command.</param>
         /// <param name="failIfAlreadyCreated">Raises an <see cref="ArgumentException"/> if the element already exists on database.</param>
-        private void Put(string url, string data, bool failIfAlreadyCreated)
+        /// <param name="idOnUrl">If true it will use the PUT verb, otherwise will use the POST and let the server create the ID.</param>
+        private void HttpPublish(string url, string data, bool failIfAlreadyCreated, bool idOnUrl = true)
         {
             try
             {
@@ -116,7 +118,7 @@
                 client.Encoding = System.Text.Encoding.UTF8;
 
                 byte[] b = Encoding.UTF8.GetBytes(data);
-                client.UploadData(new Uri(url), "PUT", b);
+                client.UploadData(new Uri(url), idOnUrl ? "PUT" : "POST", b);
             }
             catch(WebException e)
             {
