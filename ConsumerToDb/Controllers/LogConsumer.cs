@@ -15,12 +15,16 @@
     public class LogConsumer : RabbitMqConnection
     {
         private DatabaseConnection dbConn;
-        private readonly string TargetDatabase = "Application";
-        private readonly string TargetTable = "Logs";
+        private readonly string TargetDatabase = "application";
+        private readonly string TargetTable = "logs";
 
         public LogConsumer(string hostname, int port, string queueName, DatabaseConnection dbConn, IConnectionFactory factory = null) :
             base(hostname, port, queueName, factory)
         {
+            // To avoid problems with element names.
+            TargetDatabase = TargetDatabase.ToLower();
+            TargetTable = TargetTable.ToLower();
+
             // Prepare database to receive data.
             dbConn.PrepareDatabase(TargetDatabase);
             dbConn.PrepareTable(TargetDatabase, TargetTable);
@@ -52,8 +56,9 @@
             catch (Exception e)
             {
                 var msg = string.Format(
-                    "Internal Error or Input JSON contains invalid character or format. Error message: {0}",
-                    e.Message);
+                    "Internal Error or Input JSON contains invalid character or format. Error message: {0}.\nQueue message dump: '{1}'",
+                    e.Message,
+                    message);
 
                 LogMessage(MessageType.Error, msg);
             }

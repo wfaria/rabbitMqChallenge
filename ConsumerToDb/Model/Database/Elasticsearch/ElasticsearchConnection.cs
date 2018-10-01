@@ -116,15 +116,12 @@
                 WebClient client = new WebClient();
                 client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
                 client.Encoding = System.Text.Encoding.UTF8;
-
                 byte[] b = Encoding.UTF8.GetBytes(data);
                 client.UploadData(new Uri(url), (idOnUrl ? "PUT" : "POST"), b);
             }
             catch (WebException e)
             {
                 HttpWebResponse res = (HttpWebResponse)e.Response;
-                Console.WriteLine(url + " " + res.StatusDescription);
-
                 if (res.StatusCode == HttpStatusCode.NotFound)
                 {
                     throw new ArgumentException("The URL path doesn't exist on database. Check if there is missing an index or type there.");
