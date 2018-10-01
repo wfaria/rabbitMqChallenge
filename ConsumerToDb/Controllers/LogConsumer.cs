@@ -39,7 +39,10 @@
                 var dynamicObj = new LogEntryList().Deserialize(message);
                 if (dynamicObj == null)
                 {
-                    LogMessage(MessageType.Error, "Invalid JSON format read while accessing log queue.");
+                    var errorMsg = string.Format(
+                        "Invalid JSON format read while accessing log queue.\nQueue message dump: '{0}'",
+                        message);
+                    LogMessage(MessageType.Error, errorMsg);
                     return;
                 }
 
@@ -55,12 +58,12 @@
             }
             catch (Exception e)
             {
-                var msg = string.Format(
+                var errorMsg = string.Format(
                     "Internal Error or Input JSON contains invalid character or format. Error message: {0}.\nQueue message dump: '{1}'",
                     e.Message,
                     message);
 
-                LogMessage(MessageType.Error, msg);
+                LogMessage(MessageType.Error, errorMsg);
             }
         }
 

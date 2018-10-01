@@ -20,7 +20,7 @@
 
             consumer.RegisterConsumer();
 
-            Console.WriteLine("Press CTRL+C to quit.");
+            Console.WriteLine("Log consumer running. Press CTRL+C to quit.");
             Console.ReadLine();
         }
     }
