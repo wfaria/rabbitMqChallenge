@@ -13,8 +13,8 @@
   </ItemGroup>
   
   <ItemGroup>
-  <ProjectReference Include="../JsonHelper/JsonHelper.csproj" />
-  <ProjectReference Include="../QueueDatabase/QueueDatabase.csproj" />
+    <ProjectReference Include="../JsonHelper/JsonHelper.csproj" />
+    <ProjectReference Include="../QueueDatabase/QueueDatabase.csproj" />
   </ItemGroup>
 
 </Project>

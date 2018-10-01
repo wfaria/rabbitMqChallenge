@@ -89,11 +89,6 @@
             };
 
             channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
-
-            var msg = string.Format(
-                "Consumer connected on queue {0}. Press [CTRL+C] to exit.",
-                queueName);
-            Console.WriteLine(msg);
         }
     }
 }
