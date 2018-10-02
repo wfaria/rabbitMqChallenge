@@ -10,6 +10,9 @@
     /// </summary>
     public class LogEntryList : JsonBase
     {
+        [JsonProperty(Required = Required.Default)]
+        public LogEntry[] LogEntries { get; set; }
+
         public override dynamic Deserialize(string json)
         {
             try
@@ -26,6 +29,13 @@
             }
 
             return JsonConvert.DeserializeObject(json);
+        }
+
+        public override string Serialize()
+        {
+            // We need this because the original JSON payload includes
+            // a log array without name.
+            return JsonConvert.SerializeObject(LogEntries);
         }
     }
 }
