@@ -1,5 +1,7 @@
 ﻿namespace JsonHelper
 {
+    using Newtonsoft.Json;
+
     /// <summary>
     /// Abstract class to represent a JSON object which
     /// contains predefined fields but should also accept non-declared fields.
@@ -13,5 +15,10 @@
         /// <param name="deserialization">A Json object in the string format.</param>
         /// <returns>Null if the verification fail, a dynamic JSON object otherwise.</returns>
         public abstract dynamic Deserialize(string deserialization);
+
+        public virtual string Serialize()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }
