@@ -5,6 +5,7 @@
     using ConsumerToDb.Model.Database;
     using JsonHelper.Model;
     using Newtonsoft.Json;
+    using QueueDatabase.Model;
     using QueueDatabase.Model.Rabbit;
     using RabbitMQ.Client;
 
@@ -12,14 +13,13 @@
     /// This class consumes log entries from a message queue broker
     /// and persists it on a different database. 
     /// </summary>
-    public class LogConsumer : RabbitMqConnection
+    public class LogConsumer : IConsumerListener
     {
         private DatabaseConnection DbConn;
         private readonly string TargetDatabase = "application";
         private readonly string TargetTable = "logs";
 
-        public LogConsumer(string hostname, int port, string queueName, DatabaseConnection dbConn, IConnectionFactory factory = null) :
-            base(hostname, port, queueName, factory)
+        public LogConsumer(DatabaseConnection dbConn)
         {
             // To avoid problems with element names.
             TargetDatabase = TargetDatabase.ToLower();
@@ -32,7 +32,8 @@
             this.DbConn = dbConn;
         }
 
-        public override void ConsumerCallback(string queueName, string message)
+        /// <inheritdoc/>
+        public void Consume(string queueName, string message)
         {
             try
             {
