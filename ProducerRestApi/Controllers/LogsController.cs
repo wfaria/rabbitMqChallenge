@@ -5,16 +5,28 @@
     using System.Net;
     using System.Net.Http;
 
-    using ConsumerToDb.Model.Queue;
-    using ConsumerToDb.Model.Queue.Rabbit;
     using JsonHelper.Model;
     using Microsoft.AspNetCore.Mvc;
+    using QueueDatabase.Model;
+    using QueueDatabase.Model.Rabbit;
 
     [Route("api/[controller]")]
     [ApiController]
     public class LogsController : ControllerBase
     {
-        private QueueConnection QueueConn;
+        /// <summary>
+        /// Connection object used to access queues to post log messages.
+        /// </summary>
+        public QueueConnection QueueConn;
+
+        /// <summary>
+        /// Base constructor used for mock tests.
+        /// </summary>
+        /// <param name="queueConn">A mock queue connection.</param>
+        public LogsController(QueueConnection queueConn)
+        {
+            QueueConn = queueConn;
+        }
 
         // POST api/logs
         [HttpPost]

@@ -3,9 +3,9 @@
     using System;
 
     using ConsumerToDb.Model.Database;
-    using ConsumerToDb.Model.Queue.Rabbit;
     using JsonHelper.Model;
     using Newtonsoft.Json;
+    using QueueDatabase.Model.Rabbit;
     using RabbitMQ.Client;
 
     /// <summary>
@@ -14,7 +14,7 @@
     /// </summary>
     public class LogConsumer : RabbitMqConnection
     {
-        private DatabaseConnection dbConn;
+        private DatabaseConnection DbConn;
         private readonly string TargetDatabase = "application";
         private readonly string TargetTable = "logs";
 
@@ -29,7 +29,7 @@
             dbConn.PrepareDatabase(TargetDatabase);
             dbConn.PrepareTable(TargetDatabase, TargetTable);
 
-            this.dbConn = dbConn;
+            this.DbConn = dbConn;
         }
 
         public override void ConsumerCallback(string queueName, string message)
@@ -50,7 +50,7 @@
                 foreach (var log in dynamicObj)
                 {
                     var serializedLog = JsonConvert.SerializeObject(log);
-                    dbConn.WriteData(TargetDatabase, TargetTable, null, serializedLog);
+                    DbConn.WriteData(TargetDatabase, TargetTable, null, serializedLog);
                     amount++;
                 }
 

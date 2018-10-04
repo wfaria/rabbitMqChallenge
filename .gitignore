@@ -45,6 +45,10 @@ ProducerRestApi/.vs/
 ProducerRestApi/bin/
 ProducerRestApi/obj/
 ProducerRestApi/TestResults/
+ProducerRestApi.Tests/.vs/
+ProducerRestApi.Tests/bin/
+ProducerRestApi.Tests/obj/
+ProducerRestApi.Tests/TestResults/
 QueueDatabase/.vs/
 QueueDatabase/bin/
 QueueDatabase/obj/
