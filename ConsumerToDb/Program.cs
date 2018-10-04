@@ -15,13 +15,13 @@
             // storing only the valid log entries into Elasticsearch.
             var consumerListener = new LogConsumer(new ElasticsearchConnection("localhost", 9200));
 
-            var consumer = new RabbitMqConnection(
+            var queueConn = new RabbitMqConnection(
                 "localhost",
                 5672,
                 "applicationLogs",
                 consumerListener);
 
-            consumer.RegisterConsumer();
+            queueConn.RegisterConsumer();
 
             Console.WriteLine("Log consumer running. Press CTRL+C to quit.");
             Console.ReadLine();
