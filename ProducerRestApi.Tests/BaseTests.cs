@@ -26,33 +26,27 @@ namespace ProducerRestApi.Tests
             logList.LogEntries = new LogEntry[] { new LogEntry(), new LogEntry(), new LogEntry() };
             Assert.True(
                 Controller.QueueConn.Queues.Count == 1,
-                "We should have one queue to be accessed"
-                );
+                "We should have one queue to be accessed");
             Assert.True(
                 Controller.QueueConn.PublishedMessages.Count == 0,
-                "We didn't publish any message yet."
-                );
+                "We didn't publish any message yet.");
 
             var serialization = logList.Serialize();
             var response = Controller.Post(serialization);
             Assert.True(
                 Controller.QueueConn.PublishedMessages.Count == 1,
-                "The queue should contain one message."
-                );
+                "The queue should contain one message.");
             Assert.True(
                 response.StatusCode == System.Net.HttpStatusCode.OK,
-                "The message should be processed without errors."
-                );
+                "The message should be processed without errors.");
 
             var invalidInputResponse = Controller.Post("[{'MachineName' : 'MachineName'}]");
             Assert.True(
                 Controller.QueueConn.PublishedMessages.Count == 1,
-                "The queue should still with only one message."
-                );
+                "The queue should still with only one message.");
             Assert.True(
                 invalidInputResponse.StatusCode == System.Net.HttpStatusCode.BadRequest,
-                "The response should report an error."
-                );
+                "The response should report an error.");
         }
         [Fact]
         public void IsRandomPostMethodOk()
@@ -60,24 +54,20 @@ namespace ProducerRestApi.Tests
             var numberOfRandomLogs = 50;
             Assert.True(
                 Controller.QueueConn.Queues.Count == 1,
-                "We should have one queue to be accessed"
-                );
+                "We should have one queue to be accessed");
             Assert.True(
                 Controller.QueueConn.PublishedMessages.Count == 0,
-                "We didn't publish any message yet."
-                );
+                "We didn't publish any message yet.");
 
             // The second parameter is necessary because it is a post method,
             // but it is ignored by the method logic.
             var response = Controller.PostRandom(numberOfRandomLogs, string.Empty);
             Assert.True(
                 Controller.QueueConn.PublishedMessages.Count == 1,
-                "The queue should contain one message with all 50 logs."
-                );
+                "The queue should contain one message with all 50 logs.");
             Assert.True(
                 response.StatusCode == System.Net.HttpStatusCode.OK,
-                "The message should be processed without errors."
-                );
+                "The message should be processed without errors.");
 
             var logList = new LogEntryList().Deserialize(Controller.QueueConn.PublishedMessages[0]);
             var count = 0;
@@ -90,8 +80,7 @@ namespace ProducerRestApi.Tests
 
             Assert.True(
                 count == numberOfRandomLogs,
-                "The amount of published logs is wrong."
-                );
+                "The amount of published logs is wrong.");
         }
     }
 }

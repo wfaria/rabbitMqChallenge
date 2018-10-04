@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonHelper.Tests", "JsonHel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProducerRestApi.Tests", "ProducerRestApi.Tests\ProducerRestApi.Tests.csproj", "{CE86AAD5-755D-4561-B4AE-0BB13150D99E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueDatabase.Tests", "QueueDatabase.Tests\QueueDatabase.Tests.csproj", "{4EE3EED8-0D19-4296-A059-8298819D96E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,5 +102,17 @@ Global
 		{CE86AAD5-755D-4561-B4AE-0BB13150D99E}.Release|x64.Build.0 = Release|Any CPU
 		{CE86AAD5-755D-4561-B4AE-0BB13150D99E}.Release|x86.ActiveCfg = Release|Any CPU
 		{CE86AAD5-755D-4561-B4AE-0BB13150D99E}.Release|x86.Build.0 = Release|Any CPU
+		{4EE3EED8-0D19-4296-A059-8298819D96E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EE3EED8-0D19-4296-A059-8298819D96E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EE3EED8-0D19-4296-A059-8298819D96E9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4EE3EED8-0D19-4296-A059-8298819D96E9}.Debug|x64.Build.0 = Debug|Any CPU
+		{4EE3EED8-0D19-4296-A059-8298819D96E9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4EE3EED8-0D19-4296-A059-8298819D96E9}.Debug|x86.Build.0 = Debug|Any CPU
+		{4EE3EED8-0D19-4296-A059-8298819D96E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EE3EED8-0D19-4296-A059-8298819D96E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EE3EED8-0D19-4296-A059-8298819D96E9}.Release|x64.ActiveCfg = Release|Any CPU
+		{4EE3EED8-0D19-4296-A059-8298819D96E9}.Release|x64.Build.0 = Release|Any CPU
+		{4EE3EED8-0D19-4296-A059-8298819D96E9}.Release|x86.ActiveCfg = Release|Any CPU
+		{4EE3EED8-0D19-4296-A059-8298819D96E9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

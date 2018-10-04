@@ -53,6 +53,10 @@ QueueDatabase/.vs/
 QueueDatabase/bin/
 QueueDatabase/obj/
 QueueDatabase/TestResults/
+QueueDatabase.Tests/.vs/
+QueueDatabase.Tests/bin/
+QueueDatabase.Tests/obj/
+QueueDatabase.Tests/TestResults/
 ###################
 # Web publish log #
 ###################
