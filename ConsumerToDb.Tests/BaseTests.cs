@@ -66,7 +66,6 @@ namespace ConsumerToDb.Tests
             Assert.True(
                 dbConn.GeneratedData.Count == logList.Length,
                 "Since the input had an invalid JSON list, the database amount of data shouldn't change.");
-
         }
     }
 }

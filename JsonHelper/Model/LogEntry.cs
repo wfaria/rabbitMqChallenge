@@ -88,6 +88,13 @@
             {
                 // You can also do other logic or business verifications here if you need.
                 var obj = JsonConvert.DeserializeObject<LogEntry>(json);
+                var auxNum = 0;
+                if (!int.TryParse(obj.NativeProcessId, out auxNum) || 
+                    !int.TryParse(obj.NativeThreadId, out auxNum))
+                {
+                    // Example of schema validation. Invalid number string.
+                    return null;
+                }
             }
             catch (Exception)
             {
