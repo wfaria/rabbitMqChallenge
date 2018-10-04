@@ -1,6 +1,6 @@
 ﻿namespace QueueDatabase
 {
-    using ConsumerToDb.Model.Queue.Rabbit;
+    using QueueDatabase.Model.Rabbit;
     using System;
 
     class Program

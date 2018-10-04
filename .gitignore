@@ -37,14 +37,26 @@ JsonHelper/.vs/
 JsonHelper/bin/
 JsonHelper/obj/
 JsonHelper/TestResults/
+JsonHelper.Tests/.vs/
+JsonHelper.Tests/bin/
+JsonHelper.Tests/obj/
+JsonHelper.Tests/TestResults/
 ProducerRestApi/.vs/
 ProducerRestApi/bin/
 ProducerRestApi/obj/
 ProducerRestApi/TestResults/
+ProducerRestApi.Tests/.vs/
+ProducerRestApi.Tests/bin/
+ProducerRestApi.Tests/obj/
+ProducerRestApi.Tests/TestResults/
 QueueDatabase/.vs/
 QueueDatabase/bin/
 QueueDatabase/obj/
 QueueDatabase/TestResults/
+QueueDatabase.Tests/.vs/
+QueueDatabase.Tests/bin/
+QueueDatabase.Tests/obj/
+QueueDatabase.Tests/TestResults/
 ###################
 # Web publish log #
 ###################

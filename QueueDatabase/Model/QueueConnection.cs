@@ -1,4 +1,4 @@
-﻿namespace ConsumerToDb.Model.Queue
+﻿namespace QueueDatabase.Model
 {
     using System;
     using System.Collections.Generic;
@@ -9,9 +9,9 @@
     /// </summary>
     public class QueueConnection
     {
-        private HashSet<string> queues;
-        private HashSet<string> messages;
-        private List<string> publishedMessages;
+        public HashSet<string> Queues;
+        public HashSet<string> MessagesFromCallbacks;
+        public List<string> PublishedMessages;
 
         /// <summary>
         /// The method that is called by each callback registered by
@@ -19,7 +19,7 @@
         /// </summary>
         public virtual void ConsumerCallback(string queueName, string message)
         {
-            messages.Add(message);
+            MessagesFromCallbacks.Add(message);
         }
 
         /// <summary>
@@ -28,9 +28,9 @@
         /// </summary>
         public virtual void Initialize()
         {
-            messages = new HashSet<string>();
-            publishedMessages = new List<string>();
-            queues = new HashSet<string>();
+            MessagesFromCallbacks = new HashSet<string>();
+            PublishedMessages = new List<string>();
+            Queues = new HashSet<string>();
         }
 
         /// <summary>
@@ -38,7 +38,7 @@
         /// </summary>
         public virtual void PrepareQueues()
         {
-            queues.Add("queueName");
+            Queues.Add("queueName");
         }
 
         /// <summary>
@@ -47,7 +47,7 @@
         /// <param name="message">Any string which is valid for the target queue context.</param>
         public virtual void Publish(string message)
         {
-            publishedMessages.Add(message);
+            PublishedMessages.Add(message);
         }
 
         /// <summary>

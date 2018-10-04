@@ -89,11 +89,10 @@
                 // You can also do other logic or business verifications here if you need.
                 var obj = JsonConvert.DeserializeObject<LogEntry>(json);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // The field annotations will make the deserialization fail
                 // if any field is missing as expected.
-                Console.WriteLine(e);
                 return null;
             }
 

@@ -1,8 +1,9 @@
-﻿namespace ConsumerToDb.Model.Queue.Rabbit
+﻿namespace QueueDatabase.Model.Rabbit
 {
     using System;
     using System.Text;
 
+    using QueueDatabase.Model;
     using RabbitMQ.Client;
     using RabbitMQ.Client.Events;
 
