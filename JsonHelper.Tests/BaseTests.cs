@@ -15,6 +15,14 @@ namespace JsonHelper.Tests
             Assert.True(
                 deserialization == null,
                 "The deserialization result should be null since the input file has an invalid log entry (missing the MachineName field).");
+
+            var log = new LogEntry();
+            log.NativeProcessId = "Invalid Number";
+            serialization = log.Serialize();
+            deserialization = new LogEntry().Deserialize(serialization);
+            Assert.True(
+                deserialization == null,
+                "The deserialization result should be null since a numeric field has an invalid string format.");
         }
 
         [Fact]

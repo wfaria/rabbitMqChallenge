@@ -10,7 +10,9 @@
     /// <summary>
     /// Base class for RabbitMqConnections.
     /// It does all steps but it just prints the message after reading messages for consumers.
-    /// Consumers should override the method <see cref="RabbitMqConnection.ConsumerCallback(string, string)"/>
+    /// Consumers should override the method 
+    /// <see cref="ConsumerCallback(string, string)"/> or just
+    /// pass a <see cref="IConsumerListener"/> implementation to this class constructor.
     /// to work properly.
     /// </summary>
     public class RabbitMqConnection : QueueConnection
@@ -24,8 +26,10 @@
             string hostname,
             int port,
             string queueName,
+            IConsumerListener consumerListener = null,
             IConnectionFactory factory = null)
         {
+            this.ConsumerListener = consumerListener;
             if (factory == null)
             {
                 this.factory = new ConnectionFactory()
@@ -45,6 +49,12 @@
         /// <inheritdoc/>
         public override void ConsumerCallback(string queueName, string message)
         {
+            if (ConsumerListener != null)
+            {
+                ConsumerListener.Consume(queueName, message);
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(message))
             {
                 message = "Empty message";

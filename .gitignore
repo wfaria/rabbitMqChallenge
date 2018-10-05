@@ -33,6 +33,10 @@ ConsumerToDb/.vs/
 ConsumerToDb/bin/
 ConsumerToDb/obj/
 ConsumerToDb/TestResults/
+ConsumerToDb.Tests/.vs/
+ConsumerToDb.Tests/bin/
+ConsumerToDb.Tests/obj/
+ConsumerToDb.Tests/TestResults/
 JsonHelper/.vs/
 JsonHelper/bin/
 JsonHelper/obj/

@@ -9,6 +9,7 @@
     /// </summary>
     public class QueueConnection
     {
+        public IConsumerListener ConsumerListener;
         public HashSet<string> Queues;
         public HashSet<string> MessagesFromCallbacks;
         public List<string> PublishedMessages;
@@ -19,6 +20,11 @@
         /// </summary>
         public virtual void ConsumerCallback(string queueName, string message)
         {
+            if (ConsumerListener != null)
+            {
+                ConsumerListener.Consume(queueName, message);
+            }
+
             MessagesFromCallbacks.Add(message);
         }
 

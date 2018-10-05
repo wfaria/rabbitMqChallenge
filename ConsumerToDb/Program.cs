@@ -4,6 +4,7 @@
 
     using ConsumerToDb.Controllers;
     using ConsumerToDb.Model.Database;
+    using QueueDatabase.Model.Rabbit;
 
     class Program
     {
@@ -12,13 +13,15 @@
             // We just connect our custom consumer to RabbitMQ
             // and let its callback method wait for new queue messages,
             // storing only the valid log entries into Elasticsearch.
-            var consumer = new LogConsumer(
+            var consumerListener = new LogConsumer(new ElasticsearchConnection("localhost", 9200));
+
+            var queueConn = new RabbitMqConnection(
                 "localhost",
                 5672,
                 "applicationLogs",
-                new ElasticsearchConnection("localhost", 9200));
+                consumerListener);
 
-            consumer.RegisterConsumer();
+            queueConn.RegisterConsumer();
 
             Console.WriteLine("Log consumer running. Press CTRL+C to quit.");
             Console.ReadLine();

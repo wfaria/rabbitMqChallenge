@@ -12,16 +12,18 @@
     /// </summary>
     public class DatabaseConnection
     {
-        private Dictionary<string, string> GeneratedData;
-        private HashSet<string> PreparedTables;
-        private HashSet<string> PreparedDatabases;
+        public List<string> GeneratedData;
+        public List<string> GeneratedDataKeys;
+        public HashSet<string> PreparedTables;
+        public HashSet<string> PreparedDatabases;
 
         /// <summary>
         /// Basic constructor.
         /// </summary>
         public DatabaseConnection()
         {
-            GeneratedData = new Dictionary<string, string>();
+            GeneratedData = new List<string>();
+            GeneratedDataKeys = new List<string>();
             PreparedDatabases = new HashSet<string>();
             PreparedTables = new HashSet<string>();
         }
@@ -78,8 +80,14 @@
             string id,
             string data)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                id = "null";
+            }
+
             var key = string.Format("{0}/{1}/{2}", database, table, id);
-            GeneratedData[key] = data;
+            GeneratedDataKeys.Add(key);
+            GeneratedData.Add(data);
         }
 
         /// <summary>
