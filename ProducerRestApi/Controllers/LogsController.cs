@@ -19,15 +19,6 @@
         /// </summary>
         public QueueConnection QueueConn;
 
-        /// <summary>
-        /// Base constructor used for mock tests.
-        /// </summary>
-        /// <param name="queueConn">A mock queue connection.</param>
-        public LogsController(QueueConnection queueConn)
-        {
-            QueueConn = queueConn;
-        }
-
         // POST api/logs
         [HttpPost]
         public HttpResponseMessage Post([FromBody] string value)

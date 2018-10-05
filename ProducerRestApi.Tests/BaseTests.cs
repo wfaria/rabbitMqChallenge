@@ -14,7 +14,8 @@ namespace ProducerRestApi.Tests
         public BaseTests()
         {
             // Creating Http controller and its mock connection for tests.
-            Controller = new LogsController(new QueueConnection());
+            Controller = new LogsController();
+            Controller.QueueConn = new QueueConnection();
             Controller.QueueConn.Initialize();
             Controller.QueueConn.PrepareQueues();
         }

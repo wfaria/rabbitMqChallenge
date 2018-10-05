@@ -78,13 +78,15 @@ Enquanto o RabbitMQ fica por trás das cortinas transmitindo mensagens entre dif
 
 FOto aqui
 
-## Trabalhos futuros
+## Críticas e Trabalhos futuros
 
-### Melhorar validação de dados
+### Melhorar sistema de serialização e validação de dados
 
 Devido a restrições de tempo, não validei todos os campos da mensagem de Logs em relação à regras de negócio, apenas a parte da existência deles. Coloquei um exemplo de validação de formato de número lá que acredito demonstrar bem a ideia e o local que esta parte deveria ser implementada.
 
 Também acho que seria uma boa reportar o campo problemático em uma string JSON na hora da desserialização dela. Talvez fazer o método retornar uma exceção mais descritiva ao invés de apenas retornar NULL.
+
+Além disto, do jeito que foi implementado, aplicar esta validação é bem trabalhoso pois deixei acoplado com a parte de desserialização a parte da verificação (veja o arquivo LogEntryList.cs do Projeto JsonHelper por exemplo). Acredito que criar uma função à parte para fazer a verificação, indepentente de anotações para garantir a existência de campos seria ótimo para melhorar a criação de código e o desempenho do sistema.
 
 ### Instalar sistema em múltiplas máquinas
 
