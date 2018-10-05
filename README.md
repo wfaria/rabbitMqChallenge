@@ -31,7 +31,8 @@ Caso funcione, execute o mesmo comando, mas referenciando o playbook TODO
 
 O projeto está dividido em 4 principais projetos, todos implementados usando o framework DotNet com C#. Cada um tem um projeto relacionado para execução de testes unitários. Caso queira executar este testes, basta entrar na pasta deles e rodar o comando de testes, por exemplo:
 
-```cd ConsumerToDb.Tests
+```
+cd ConsumerToDb.Tests
 dotnet test
 ...
 ```
@@ -71,7 +72,8 @@ Um serviço que fica escutando a lista que recebe as mensagens gerados pelo Prod
 
 Enquanto o RabbitMQ fica por trás das cortinas transmitindo mensagens entre diferentes serviços. Usamos a combinação do Elasticsearch e do Kibana para visualizar estas mensagens de forma prática. Além do sistema de queries que a ferrramenta proporciona, criei um histograma para mostrar os 10 processos com tempo de resposta mais altos. Use a URL a seguir para explorar o resultado dos serviços descritos anteriormente:
 
-```127.0.0.1:5601/app/kibana
+```
+127.0.0.1:5601/app/kibana
 ```
 
 FOto aqui
@@ -89,7 +91,8 @@ Também acho que seria uma boa reportar o campo problemático em uma string JSON
 Tentei imaginar como preparar a arquitetura para ser configurada para rodar em múltiplas máquinas, acredito que alguns passos extras seriam necessários como:
 
 * Modificar /etc/hosts para criar apelidos para máquinas de acordo com seus IPs;
-```111.111.111.11 rabbitMqServer
+```
+111.111.111.11 rabbitMqServer
 111.111.111.12 elkServer
 ...
 ```
