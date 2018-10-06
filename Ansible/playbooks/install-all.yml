@@ -1,0 +1,14 @@
+---
+# Gets git repository files.
+- import_playbook: get-git-repo.yml
+
+# Install dotnet.
+- import_playbook: dotnet.yml
+
+# Install rabbitMQ
+- import_playbook: rabbitmq.yml
+
+# Install Elasticsearch and Kibana
+- import_playbook: Elk/elk.yml
+
+

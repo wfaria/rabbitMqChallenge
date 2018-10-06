@@ -1,0 +1,13 @@
+---
+- hosts: aspproducers:elkservers:rabbitmqconsumers:rabbitmqservers
+  become: true
+  become_method: sudo
+  tasks:
+  - name: Create directory
+    file: 
+      path: ~/rabbitMqChallenge
+      state: directory
+  
+  - git:
+      repo: 'https://github.com/wfaria/rabbitMqChallenge'
+      dest: ~/rabbitMqChallenge
