@@ -41,7 +41,7 @@ Após isto, tudo deve estar instalado e os três serviços de dados rodando:
 * Kibana;
 * Elasticsearch.
 
-Agora você pode iniciar os serviços de consumo e publicação. Para isto, na máquina alvo:
+Agora você pode iniciar os serviços de consumo e publicação. Para isto, na máquina alvo rode os seguintes comandos para compilar os projetos deles:
 
 ```
 cd ~/rabbitMqChallenge
@@ -56,7 +56,7 @@ Este comandos garantirão que os projetos foram compilados com sucesso, a próxi
 
 ## Descrição de projetos
 
-O sistema está dividido em 4 principais projetos, todos implementados usando o framework DotNet com C#. Cada um tem um projeto relacionado para execução de testes unitários. Caso queira executar este testes, basta entrar na pasta deles e rodar o comando de testes, por exemplo:
+O sistema está dividido em 4 principais projetos, todos implementados usando o framework Dotnet com C#. Cada um tem um projeto relacionado para execução de testes unitários. Caso queira executar este testes, basta entrar na pasta deles e rodar o comando de testes, por exemplo:
 
 ```
 cd ConsumerToDb.Tests
@@ -111,7 +111,7 @@ Você pode usar "sudo rabbitmq-server" e "sudo rabbitmqctl stop" para iniciar e 
 
 ## Elasticsearch e Kibana
 
-Enquanto o RabbitMQ fica por trás das cortinas transmitindo mensagens entre diferentes serviços. Usamos a combinação do Elasticsearch e do Kibana para visualizar estas mensagens de forma prática. Além do sistema de queries que a ferrramenta proporciona, criei um histograma para mostrar os 10 processos com tempo de resposta mais altos. Use a URL a seguir para explorar o resultado dos serviços descritos anteriormente:
+Enquanto o RabbitMQ fica por trás das cortinas transmitindo mensagens entre diferentes serviços, usamos a combinação do Elasticsearch e do Kibana para visualizar estas mensagens de forma prática. Além do sistema de queries que a ferrramenta proporciona, criei um histograma para mostrar os 10 processos com tempo de resposta mais altos. Use a URL a seguir para explorar o resultado dos serviços descritos anteriormente:
 
 ```
 127.0.0.1:5601/app/kibana
@@ -119,11 +119,17 @@ Enquanto o RabbitMQ fica por trás das cortinas transmitindo mensagens entre dif
 
 A foto a seguir mostra um histograma das 10 aplicações mais lentas no Kibana. Existe um script em Ansible\playbooks\Elk\kibanaVisualization.sh que deve ser capaz de configurar esta visualização em sua máquina.
 
-Você pode usar os comandos "sudo -i service elasticsearch start" e "sudo -i service elasticsearch stop" para parar o Elasticsearch, igualmente, os comandos "sudo -i service kibana start" e "sudo -i service kibana stop" para mexer com o Kibana.
+Você pode usar os comandos "sudo -i service elasticsearch start" e "sudo -i service elasticsearch stop" para parar o Elasticsearch. Analogamente pode usar comandos "sudo -i service kibana start" e "sudo -i service kibana stop" para mexer com o Kibana.
 
 ![Alt text](imgs/kibana.jpg?raw=true "Histograma das 10 aplicações mais lentas no Kibana.")
 
 ## Críticas e Trabalhos futuros
+
+### Criar abstração de acesso para o Elasticsearch
+
+Seria interessante ter um projeto à parte que fizesse uma abstração da conexão deste banco da mesma forma que foi feito com o RabbitMQ, isto facilita testes, manutenção e compartilhamento de código. Neste sistema, o projeto acabou ficando contido dentro do projeto do consumidor. Como o Elasticsearch só é usado por ele, isto não é tão grave neste caso.
+
+Caso ele fosse exposto, todos serviços poderiam usar o Elasticsearch para reportar erros, já aproveitando o formato das mensagens de Log.
 
 ### Melhorar sistema de serialização e validação de dados
 
