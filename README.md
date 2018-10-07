@@ -41,16 +41,17 @@ Após isto, tudo deve estar instalado e os três serviços de dados rodando:
 * Kibana;
 * Elasticsearch.
 
-Agora você pode iniciar os serviços de consumo e publicação. Para isto, na máquina alvo rode os seguintes comandos para compilar os projetos deles:
+Agora você pode iniciar os serviços de consumo e publicação, rodando os seguintes comandos para compilar o projeto. Note que como o playbook roda os comandos como root, primeiramente você precisará virar "root" na máquina alvo para ter acesso aos arquivos:
 
 ```
+sudo su -
 cd ~/rabbitMqChallenge
 dotnet clean
 dotnet restore
 dotnet build
 ```
 
-Este comandos garantirão que os projetos foram compilados com sucesso, a próxima seção falará mais sobre eles.
+A próxima seção falará mais sobre quais serviços devem ser inicializados.
 
 
 
