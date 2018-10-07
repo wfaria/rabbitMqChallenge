@@ -10,7 +10,7 @@ Este é um projeto sobre um sistema de Log de aplicações. Resumidamente ele in
 
 Este projeto foi desenvolvido em uma máquina única, com todos serviços usando "localhost" como endereço básico. Principais tecnologias usadas:
 
-* Windows Subservice For Linux usando Ubuntu 18.04 (provavelmente deve funcionar em um Ubuntu real sem problemas);
+* Windows Subservice For Linux usando Ubuntu 18.04 (também foi testado em uma máquina AWS EC2 rodando Ubuntu 18.04);
 * [Ansible](https://www.ansible.com) para automação de criação de infra;
 * C# e Dotnet framework para criação de serviços de criação e consumo de mensagens de Log;
 * [RabbitMQ](https://www.rabbitmq.com) como sistema de mensageria;
@@ -119,7 +119,7 @@ Enquanto o RabbitMQ fica por trás das cortinas transmitindo mensagens entre dif
 
 A foto a seguir mostra um histograma das 10 aplicações mais lentas no Kibana. Existe um script em Ansible\playbooks\Elk\kibanaVisualization.sh que deve ser capaz de configurar esta visualização em sua máquina.
 
-Você pode usar os comandos "sudo -i service elasticsearch start" e "sudo -i service elasticsearch stop" para parar o Elasticsearch. Analogamente pode usar comandos "sudo -i service kibana start" e "sudo -i service kibana stop" para mexer com o Kibana.
+Você pode usar os comandos "sudo -i service elasticsearch start" e "sudo -i service elasticsearch stop" para parar o Elasticsearch. Analogamente, pode usar comandos "sudo -i service kibana start" e "sudo -i service kibana stop" para mexer com o Kibana.
 
 ![Alt text](imgs/kibana.jpg?raw=true "Histograma das 10 aplicações mais lentas no Kibana.")
 
