@@ -136,7 +136,7 @@ Caso ele fosse exposto, todos serviços poderiam usar o Elasticsearch para repor
 
 Devido a restrições de tempo, não validei todos os campos da mensagem de Logs em relação à regras de negócio, apenas a parte da existência deles. Coloquei um exemplo de validação de formato de número lá que acredito demonstrar bem a ideia e o local que esta parte deveria ser implementada.
 
-Também acho que seria uma boa reportar o campo problemático em uma string JSON na hora da desserialização dela. Talvez fazer o método retornar uma exceção mais descritiva ao invés de apenas retornar NULL.
+Também acho que seria bom reportar o campo problemático em uma string JSON na hora da desserialização dela. Talvez fazer o método retornar uma exceção mais descritiva ao invés de apenas retornar NULL.
 
 Além disto, do jeito que foi implementado, aplicar esta validação é bem trabalhoso pois deixei acoplado com a parte de desserialização a parte da verificação (veja o arquivo LogEntryList.cs do Projeto JsonHelper por exemplo). Acredito que criar uma função à parte para fazer a verificação, indepentente de anotações para garantir a existência de campos seria ótimo para melhorar a criação de código e o desempenho do sistema.
 
@@ -157,7 +157,7 @@ Tentei imaginar como preparar a arquitetura para ser configurada para rodar em m
 
 ### Controle de fluxo de dados
 
-O serviço que escreve os logs no Elasticsearch recebe uma lista de logs mas os escreve de 1 em 1 no Elasticsearch. Enquanto isso o produtor recebe uma lista de logs e escreve ela inteira no RabbitMQ. Talvez seria útil quebrar esta lista em pacotes de um tamanho máximo, mas para isto seria necessário um estudo da capacidade de cada máquina e da rede disponível, o que não se aplica neste projeto demonstrativo.
+O serviço que escreve os logs no Elasticsearch recebe uma lista de logs mas os escreve de um em um no Elasticsearch. Enquanto isso o produtor recebe uma lista de logs e escreve ela inteira no RabbitMQ. Talvez seria útil quebrar esta lista em pacotes de um tamanho máximo, mas para isto seria necessário um estudo da capacidade de cada máquina e da rede disponível, o que não se aplica neste projeto demonstrativo.
 
 ### Melhoria na automatização
 
