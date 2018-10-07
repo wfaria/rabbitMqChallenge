@@ -62,7 +62,7 @@ namespace ProducerRestApi.Tests
 
             // The second parameter is necessary because it is a post method,
             // but it is ignored by the method logic.
-            var response = Controller.PostRandom(numberOfRandomLogs, string.Empty);
+            var response = Controller.PostRandom(numberOfRandomLogs);
             Assert.True(
                 Controller.QueueConn.PublishedMessages.Count == 1,
                 "The queue should contain one message with all 50 logs.");
