@@ -2,7 +2,7 @@
 
 Este é um projeto sobre um sistema de Log de aplicações. Resumidamente ele inclui:
 
-* Uma API capaz de enviar logs para um serviço de mensageria baseada em filas por requisições REST;
+* Uma API capaz de enviar logs para um serviço de mensageria baseada em filas (RabbitMQ) por requisições REST;
 * Um consumidor que recebe mensagens desta fila e as publica em um índice no Elasticsearch;
 * Um servidor com Kibana para exibir um dashboard com as 10 aplicações com tempo médio de resposta mais altos.
 
@@ -13,8 +13,10 @@ Este projeto foi desenvolvido em uma máquina única, com todos serviços usando
 * Windows Subservice For Linux usando Ubuntu 18.04 (provavelmente deve funcionar em um Ubuntu real sem problemas);
 * [Ansible](https://www.ansible.com) para automação de criação de infra;
 * C# e Dotnet framework para criação de serviços de criação e consumo de mensagens de Log;
-* RabbitMQ como sistema de mensageria;
-* Elasticsearch + Kibana para armazenar e explorar logs.
+* [RabbitMQ](https://www.rabbitmq.com) como sistema de mensageria;
+* [Elasticsearch](https://www.elastic.co) + [Kibana](https://www.elastic.co/products/kibana
+
+) para armazenar e explorar logs.
 
 ## Criação de Infra e execução de serviços
 
@@ -23,13 +25,13 @@ Criei diferentes playbooks do Ansible para automatizar a instalação das ferram
 * Ansible instalado na máquina que rodará os comandos;
 * Python 2.x instalado na máquina alvo.
 
-Se for instalar a infra em uma máquina remota, altere o arquivo /Ansible/hosts.ini para usar o IP que você quiser. Depois rode o seguinte comando (os dois último parâmetros só são necessários se a máquina alvo é remota, como uma máquina na AWS):
+Se for instalar a infra em uma máquina remota, altere o arquivo em Ansible/hosts.ini para usar o IP que você quiser. Depois rode o seguinte comando (os dois últimos parâmetros só são necessários se a máquina alvo é remota, como uma máquina na Amazon Web Services):
 
 ```
 ansible-playbook /repoPath/Ansible/playbooks/hello-world.yml -i /repoPath/Ansible/hosts.ini -v --ask-become-pass -u ubuntu --private-key=~/.ssh/RabbitMqChallenge.pem
 ```
 
-Caso funcione, execute o mesmo comando, mas referenciando o seguinte playbook que inclui todos os arquivos necessários:
+Caso o playbook funcione, exibindo informações da máquina, execute o mesmo comando mas referenciando o seguinte playbook que inclui todos os arquivos necessários:
 
 ```
 ansible-playbook /repoPath/Ansible/playbooks/install-all.yml -i /repoPath/Ansible/hosts.ini -v --ask-become-pass -u ubuntu --private-key=~/.ssh/RabbitMqChallenge.pem
@@ -38,11 +40,11 @@ ansible-playbook /repoPath/Ansible/playbooks/install-all.yml -i /repoPath/Ansibl
 Após isto, tudo deve estar instalado e os três serviços de dados rodando:
 
 * RabbitMQ:
-** Comandos de controle: "sudo rabbitmq-server" e "sudo rabbitmqctl stop"
+.* Comandos de controle: "sudo rabbitmq-server" e "sudo rabbitmqctl stop"
 * Kibana;
-** Comandos de controle: "sudo -i service kibana start" e "sudo -i service kibana stop"
+.* Comandos de controle: "sudo -i service kibana start" e "sudo -i service kibana stop"
 * Elasticsearch
-** Comandos de controle: "sudo -i service elasticsearch start e sudo -i service elasticsearch stop"
+.* Comandos de controle: "sudo -i service elasticsearch start e sudo -i service elasticsearch stop"
 
 Agora você pode iniciar os serviços de consumo e publicação. Para isto, na máquina alvo:
 
@@ -59,7 +61,7 @@ Este comandos garantirão que os projetos foram compilados com sucesso, a próxi
 
 ## Descrição de projetos
 
-O projeto está dividido em 4 principais projetos, todos implementados usando o framework DotNet com C#. Cada um tem um projeto relacionado para execução de testes unitários. Caso queira executar este testes, basta entrar na pasta deles e rodar o comando de testes, por exemplo:
+O sistema está dividido em 4 principais projetos, todos implementados usando o framework DotNet com C#. Cada um tem um projeto relacionado para execução de testes unitários. Caso queira executar este testes, basta entrar na pasta deles e rodar o comando de testes, por exemplo:
 
 ```
 cd ConsumerToDb.Tests
@@ -69,9 +71,7 @@ dotnet test
 
 ![Alt text](imgs/test.jpg?raw=true "Resultados de execução de testes com sucesso, incluindo tratamento de erros.")
 
-Foto de exemplo aqui
-
-Os serviços de publicação e consumo de mensagens de Logs são desacoplados entre si, usando apenas o Broker de mensagens do RabbitMQ para se comunicarem entre si, assim eles continuam funcionando se um deles forem encerrados, mas o fluxo de mensagem se interroperá. Além disto, eles já criam as estruturas de dados necessárias nos bancos de dados para seu uso (como novos índices ou filas). Para executá-los basta rodar o comando "dotnet run" da pasta "ProducerRestApi" e "ConsumerToDb".
+Os serviços de publicação e consumo de mensagens de Logs são desacoplados entre si, usando apenas o Broker de mensagens do RabbitMQ para se comunicarem, assim eles continuam funcionando mesmo se um deles forem encerrados, mas o fluxo de mensagem se interroperá. Além disto, eles já criam as estruturas de dados necessárias nos bancos de dados para seu uso (como novos índices ou filas). Para executá-los basta rodar o comando "dotnet run" da pasta "ProducerRestApi" e "ConsumerToDb".
 
 ### ProducerRestApi
 
@@ -82,6 +82,12 @@ Um serviço REST capaz de receber uma requisição POST com uma lista de Logs pa
 * http://localhost:5000/api/logs - Gera um pedido para criar uma lista baseada no conteúdo de um JSON enviado no corpo da requisição POST, entradas inválidas são ignoradas e indicadas no resultado da requisição.
 
 PS: Adicione no header da requisição (Content-Type: application/json) antes de usar este serviço.
+
+Você pode usar este comando no terminal para testar o serviço com 4 mensagens aleatórias:
+
+```
+wget --post-data "{}" http://localhost:5000/api/logs/4 --no-check-certificate --header 'Content-Type: application/json'
+```
 
 ![Alt text](imgs/producer.jpg?raw=true "Serviço rodando após receber requisição para gerar 100 mensagens de log.")
 
@@ -108,6 +114,8 @@ Enquanto o RabbitMQ fica por trás das cortinas transmitindo mensagens entre dif
 ```
 127.0.0.1:5601/app/kibana
 ```
+
+A foto a seguir mostra um histograma das 10 aplicações mais lentas no Kibana. Existe um script em Ansible\playbooks\Elk\kibanaVisualization.sh que deve ser capaz de configurar esta visualização em sua máquina.
 
 ![Alt text](imgs/kibana.jpg?raw=true "Histograma das 10 aplicações mais lentas no Kibana.")
 
@@ -142,5 +150,5 @@ O serviço que escreve os logs no Elasticsearch recebe uma lista de logs mas os 
 
 ### Melhoria na automatização
 
-Existem algumas melhoras que poderiam ser feitas nos playbooks, como colocar a pasta destino, IPs de máquinas e outras configurações em um arquivo específico no lugar de deixar tudo hardcoded nos arquivos .yml.
+Existem algumas melhorias que poderiam ser feitas nos playbooks, como colocar a pasta destino, IPs de máquinas e outras configurações em um arquivo específico no lugar de deixar tudo hardcoded nos arquivos .yml. Também tive problemas com a configuração de índices e visualizações no Kibana, que acabei deixando em um arquivo Bash à parte.
 
