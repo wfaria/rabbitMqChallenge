@@ -1,9 +1,13 @@
 ---
-- hosts: aspproducers
+- hosts: aspproducers:rabbitmqconsumers
   become: yes
   become_method: sudo
   tasks:
-  
+  - name: Create directory
+    file: 
+      path: ~/rabbitMqChallenge
+      state: directory
+      
   - name: Check if packages-microsoft-prod.deb is installed
     command: dpkg-query -W packages-microsoft-prod
     register: packages_dotnet_checkdeb
@@ -13,11 +17,11 @@
   - name: Download Microsoft registration
     get_url:
       url: https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
-      dest: "{{ lookup('env','HOME') }}"
+      dest: ~/rabbitMqChallenge
     when: packages_dotnet_checkdeb.rc == 1
       
   - name: Install my_package
-    apt: deb="{{ lookup('env','HOME') }}/packages-microsoft-prod.deb"
+    apt: deb="~/rabbitMqChallenge/packages-microsoft-prod.deb"
     when: packages_dotnet_checkdeb.rc == 1
       
   - name: Install the package "apt-transport-https"

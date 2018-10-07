@@ -2,7 +2,7 @@
 - hosts: aspproducers:elkservers:rabbitmqconsumers:rabbitmqservers
   become: yes
   become_method: sudo
-  tasks:
+  tasks:   
   - name: "whoami?"
     shell: whoami
     register: whoami
@@ -13,4 +13,10 @@
       msg: Hello World!
       
   - debug:
-      msg: "Home folder: {{ lookup('env','HOME') }}"
+      msg: "User executing ansible: {{ lookup('env','HOME') }}"
+      
+  - command: "ls ~/"
+    register: dir_out
+    
+  - debug: var={{item}}
+    with_items: dir_out.stdout_lines

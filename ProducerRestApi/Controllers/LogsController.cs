@@ -28,7 +28,7 @@
 
         // POST api/logs/5
         [HttpPost("{randomLogsNum}")]
-        public HttpResponseMessage PostRandom(int randomLogsNum, [FromBody] string value)
+        public HttpResponseMessage PostRandom(int randomLogsNum)
         {
             if (randomLogsNum < 1)
             {

@@ -22,10 +22,15 @@ Este projeto foi desenvolvido em uma máquina única, com todos serviços usando
 
 Criei diferentes playbooks do Ansible para automatizar a instalação das ferramentas necessárias para rodar este projeto. Instale-o na sua máquina e rode o playbook a seguir para testar a instalação e a execução de comandos:
 
-```ansible-playbook /repoPath/Ansible/playbooks/hello-world.yw -i /repoPath/Ansible/hosts.ini --connection=local -v --ask-become-pass
+```
+ansible-playbook /repoPath/Ansible/playbooks/hello-world.yw -i /repoPath/Ansible/hosts.ini --connection=local -v --ask-become-pass
 ```
 
-Caso funcione, execute o mesmo comando, mas referenciando o playbook TODO
+Caso funcione, execute o mesmo comando, mas referenciando o playbook:
+
+```
+ansible-playbook /repoPath/Ansible/playbooks/get-git-repo.yml -i /repoPath/Ansible/hosts.ini -v --ask-become-pass -u ubuntu --private-key=~/.ssh/RabbitMqChallenge.pem
+```
 
 ## Descrição de projetos
 
@@ -103,4 +108,7 @@ Tentei imaginar como preparar a arquitetura para ser configurada para rodar em m
 * Adicionar apelidos nos lugares necessários nas configurações do Kibana para referenciar o Elasticsearch;
 * Adicionar apelidos na criação de conexões no código.
 
+### Controle de fluxo de dados
+
+O serviço que escreve os logs no Elasticsearch recebe uma lista de logs mas os escreve de 1 em 1 no Elasticsearch. Enquanto isso o produtor recebe uma lista de logs e escreve ela inteira no RabbitMQ.
 
