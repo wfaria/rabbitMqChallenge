@@ -122,6 +122,11 @@
             catch (WebException e)
             {
                 HttpWebResponse res = (HttpWebResponse)e.Response;
+                if (res == null)
+                {
+                    throw e;
+                }
+                
                 if (res.StatusCode == HttpStatusCode.NotFound)
                 {
                     throw new ArgumentException("The URL path doesn't exist on database. Check if there is missing an index or type there.");
